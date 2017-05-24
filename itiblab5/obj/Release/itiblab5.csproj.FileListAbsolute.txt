@@ -1,0 +1,8 @@
+C:\Users\keyf\Documents\Visual Studio 2013\Projects\itiblab5\itiblab5\bin\Release\itiblab5.exe.config
+C:\Users\keyf\Documents\Visual Studio 2013\Projects\itiblab5\itiblab5\bin\Release\itiblab5.exe
+C:\Users\keyf\Documents\Visual Studio 2013\Projects\itiblab5\itiblab5\bin\Release\itiblab5.pdb
+C:\Users\keyf\Documents\Visual Studio 2013\Projects\itiblab5\itiblab5\obj\Release\itiblab5.Form1.resources
+C:\Users\keyf\Documents\Visual Studio 2013\Projects\itiblab5\itiblab5\obj\Release\itiblab5.Properties.Resources.resources
+C:\Users\keyf\Documents\Visual Studio 2013\Projects\itiblab5\itiblab5\obj\Release\itiblab5.csproj.GenerateResource.Cache
+C:\Users\keyf\Documents\Visual Studio 2013\Projects\itiblab5\itiblab5\obj\Release\itiblab5.exe
+C:\Users\keyf\Documents\Visual Studio 2013\Projects\itiblab5\itiblab5\obj\Release\itiblab5.pdb
