@@ -20,58 +20,9 @@ namespace itiblab5
             InitializeComponent();
             
         }
-       /* public void printT (List<theatre> L)
-        {
-            for (int i = 0; i < L.Count; i++)
-            {
-                richTextBox1.Text = richTextBox1.Text + L[i].name + "Номер кластера: " + L[i].nomerklastera + "\n";
-                richTextBox1.Text = richTextBox1.Text + "\n";
-            }
-        } */
-        
-        static int rasst(int mesta_centra_klastera, int mesta_teatra) // Евклидово расстояние для мест в театре
-        {
-            //return Math.Sqrt(Math.Pow(Math.Abs(mesta_centra_klastera - mesta_teatra), 2));
-            return Math.Abs(mesta_centra_klastera - mesta_teatra);
-        }
-
-        static void funckonkur(int[] summator)
-        {
-            int max = summator[0];
-            int maxi = 0;
-            for(int i = 1; i < summator.Length; i++)
-            {
-                if (summator[i] > max)
-                {
-                    max = summator[i];
-                    maxi = i;
-                }
-            }
-            for (int i = 0; i < summator.Length; i++)
-            {
-                if (summator[i] == max)
-            summator[i] = 1;
-                else summator[i] = 0;
-            }
-            //return maxi;
-        }
-
-        void done()
-        {
-            MessageBox.Show("Строки кончились", "Работа закончена", MessageBoxButtons.OK);
-        }
-
-        static int summator(int[,] w, theatre T, int j, int m) // Ленейный взвешенный сумматор, j - номер нейрона, m - количество входных элементов 
-        {
-            int s = 0;
-            for (int i = 0; i < m; i++)
-            {
-                s += w[j, i] * T.capacity;
-            }
-            return s;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+      
+             
+        private void button1_Click(object sender, EventArgs e) // Получение данных
         {
             
             // openFileDialog1.ShowDialog(); // без этого мб ошибка
@@ -144,13 +95,17 @@ namespace itiblab5
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+
+
+
+
+        private void button2_Click(object sender, EventArgs e) // Работа с НС
         {
             int kolepoh = 0;
             char[] separators = { ' ', ';', ',' };
             String[] substrings = textBox3.Text.Split(separators, StringSplitOptions.RemoveEmptyEntries);            
             int kolkl = substrings.Length; // Количество нейронов совпадает с количеством кластеров, которое должна выделить сеть. 
-            int[] klasters = new int[kolkl];
+            
             int[] klastersreal = new int[kolkl];
             for (int i = 0; i < kolkl; i++)
             {
@@ -159,19 +114,27 @@ namespace itiblab5
 
             var random = new Random();
             if (T1.Count < 1) MessageBox.Show("Список не загружен");
-            int[,] w = new int[kolkl, T1.Count];
-            for (int j = 0; j < kolkl; j++)
+            float[,] w = new float[kolkl, T1.Count];
+
+           /* for (int j = 0; j < kolkl; j++)
                 for (int i = 0; i < T1.Count; i++)
                 {
                     w[j, i] = rasst(klastersreal[j], T1[i].capacity);
                     //w[j, i] = random.Next(1, 10); 
+                } */
+            
+            for (int j = 0; j < T1.Count; j++)
+                for (int i = 0; i < kolkl; i++)
+                {
+                    w[i, j] = (float)random.Next(10 * (-1), 10 * 1) / 10f; // iter * 10f для точности
                 }
         m1:    count++;
             for (int i = 0; i < T1.Count; i++)
             {
                 
                 for (int j = 0; j < kolkl; j++)
-                { 
+                {
+                    float[] klasters = new float[kolkl];
                     klasters[j] = summator(w, T1[i], j, T1.Count);
                     funckonkur(klasters);
                     for (int hj = 0; hj < kolkl; hj++)
@@ -188,7 +151,7 @@ namespace itiblab5
             {
                 for (int hj = 0; hj < kolkl; hj++)
                 {
-                    if (klasters[hj] == 1)
+                    //if (klasters[hj] == 1)
                         w[hj, i] = w[hj, i] + Math.Abs(w[hj, i] - T1[i].capacity);
                 }
             }
@@ -202,7 +165,86 @@ namespace itiblab5
                 richTextBox1.Text = richTextBox1.Text + "\n";
             }
         }
-       
+        static int rasst(int mesta_centra_klastera, int mesta_teatra) // Евклидово расстояние для мест в театре
+        {
+            //return Math.Sqrt(Math.Pow(Math.Abs(mesta_centra_klastera - mesta_teatra), 2));
+            return Math.Abs(mesta_centra_klastera - mesta_teatra);
+        }
+
+        static void funckonkur(float[] summator)
+        {
+            float max = summator[0];
+            int maxi = 0;
+            for (int i = 1; i < summator.Length; i++)
+            {
+                if (summator[i] > max)
+                {
+                    max = summator[i];
+                    maxi = i;
+                }
+            }
+            for (int i = 0; i < summator.Length; i++)
+            {
+                if (summator[i] == max)
+                    summator[i] = 1;
+                else summator[i] = 0;
+            }
+            //return maxi;
+        }
+
+
+
+        static float summator(float[,] w, theatre T, int j, int m) // Ленейный взвешенный сумматор, j - номер нейрона, m - количество входных элементов 
+        {
+            float s = 0;
+            for (int i = 0; i < m; i++)
+            {
+                s += w[j, i] * T.capacity;
+            }
+            return s;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            char[] separators = { ' ', ';', ',' };
+            String[] substrings = textBox3.Text.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            int kolkl = substrings.Length; // Количество нейронов совпадает с количеством кластеров, которое должна выделить сеть. 
+
+            float[] klastersreal = new float[kolkl];
+            for (int i = 0; i < kolkl; i++)
+            {
+                klastersreal[i] = Convert.ToInt32(substrings[i]);
+            }
+
+            var random = new Random();
+            if (T1.Count < 1) MessageBox.Show("Список не загружен");
+            float[,] w = new float[kolkl, T1.Count];
+            int numklastera;
+
+            for (int i = 0; i < T1.Count; i++)
+            {
+
+                for (int j = 0; j < kolkl - 1; j++)
+                {
+                    //float[] klasters = new float[kolkl];
+                    float min = Math.Abs(klastersreal[j] - T1[i].capacity);
+                    if (min < Math.Abs(klastersreal[j + 1] - T1[i].capacity))
+                        numklastera = j;
+                    else numklastera = j + 1;
+                   
+
+                            T1[i].nomerklastera = numklastera;
+                    
+                }
+
+            }
+            for (int i = 0; i < T1.Count; i++)
+            {
+                richTextBox1.Text = richTextBox1.Text + T1[i].name + "; Количество мест: " + T1[i].capacity
+                    + "; Номер кластера: " + T1[i].nomerklastera + "\n";
+                richTextBox1.Text = richTextBox1.Text + "\n";
+            }
+        }
        
     }
 }
